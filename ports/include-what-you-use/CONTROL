@@ -1,5 +1,5 @@
 Source: include-what-you-use
-Version: 0.14
+Version: 0.15
 Build-Depends: llvm[clang]
 Description: |
   include-what-you-use is a tool to analyze #includes in C and C++ source files
