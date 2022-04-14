@@ -1,18 +1,16 @@
+set(VERSION 3.2)
+
 vcpkg_fail_port_install(ON_TARGET "UWP")
 
 set(VCPKG_POLICY_EMPTY_INCLUDE_FOLDER enabled)
 
-vcpkg_download_distfile(ARCHIVE
-    URLS http://ftp.gnu.org/pub/gnu/gperf/gperf-3.1.tar.gz
-    FILENAME gperf-3.1.tar.gz
-    SHA512 855ebce5ff36753238a44f14c95be7afdc3990b085960345ca2caf1a2db884f7db74d406ce9eec2f4a52abb8a063d4ed000a36b317c9a353ef4e25e2cca9a3f4
-)
-
-vcpkg_extract_source_archive_ex(
+# There's a 3.2 release but it was never added to the ftp
+# Use a GitHub mirror instead
+vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
-    ARCHIVE ${ARCHIVE}
-    PATCHES
-        ${CMAKE_CURRENT_LIST_DIR}/patches/0001-Support-input-files-with-CR-LF-line-terminators.patch
+    REPO rurban/gperf
+    REF v3.2
+    SHA512 9373ddff2b3f631722e7dbc1ad7330466d1322ff552c4876b36b397e75b0ec5f665b3a4437ea1b7163989f8e8864007548938b0970df2b345f8ae324d3f0d91d
 )
 
 file(COPY ${CMAKE_CURRENT_LIST_DIR}/CMakeLists.txt DESTINATION ${SOURCE_PATH})
@@ -20,6 +18,7 @@ file(COPY ${CMAKE_CURRENT_LIST_DIR}/config.h.in DESTINATION ${SOURCE_PATH})
 
 vcpkg_configure_cmake(
     SOURCE_PATH ${SOURCE_PATH}
+    OPTIONS -DCMAKE_SYSTEM_VERSION=8.1
     OPTIONS_RELEASE -DCMAKE_INSTALL_BINDIR=tools
 )
 
