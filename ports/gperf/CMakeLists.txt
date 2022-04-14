@@ -1,10 +1,15 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.15)
+
 project(gperf LANGUAGES C CXX)
 
 include(CheckCXXSourceCompiles)
 include(GNUInstallDirs)
 
 CHECK_CXX_SOURCE_COMPILES("int main(int n) { int dynamic_array[n]; }" HAVE_DYNAMIC_ARRAY)
+
+if(MSVC)
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+endif()
 
 set(LIBGP_SOURCES
 	lib/getline.cc
